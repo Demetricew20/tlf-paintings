@@ -1,0 +1,148 @@
+
+#root {
+  height: 100%;
+  width: 100%;
+  padding: 0;
+}
+
+.top-nav {
+  position: fixed;
+  color: white;
+  z-index: 50;
+  background-color: var(--primary-color);
+}
+
+.top-nav a {
+  color: white;
+}
+
+.navbar-brand {
+  color: white;
+}
+
+.nav-link-container {
+  cursor: pointer;
+}
+
+.nav-link-container:hover {
+  background-color: black;
+  color: var(--tertiary-color) !important;
+}
+
+.logo {
+  background-color: var(--primary-color);
+}
+
+.banner {
+  background-image: url("../assets/tlf-banner-1600.png");
+  width: 100%;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+}
+
+
+/* MAIN */
+
+#main section {
+  padding: 0 2rem;
+}
+
+.section-container {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 5px solid white;
+}
+
+.off-section {
+  background-color: white;
+  color: black;
+  background-color: var(--secondary-color);
+}
+
+.footer-section{
+  background-color: black;
+  color: white;
+  border: 0;
+}
+
+
+/* BANNER */
+
+#languageBtn {
+  position: absolute;
+  top: 80px;
+  right: 10px;
+  background-color: transparent;
+  border: 1px solid white;
+}
+
+/* SERVICES */
+
+.services-content-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.services-content-wrapper {
+  display: flex;
+  justify-content: center;
+  max-width: 500px;
+}
+
+.services-list {
+  columns: 2;
+  -webkit-columns: 2;
+  -moz-columns: 2;
+}
+
+.services-list li{
+  padding: 1rem 0;
+}
+
+.services-list li i {
+  color: green;
+  margin-right: 7px;
+}
+
+
+/* SHOWCASE */
+
+.showcase-container {
+  display: grid;
+  grid-template-columns:  1fr 1fr;
+  row-gap: 3rem;
+}
+
+/* CONTACT */
+
+
+
+/* FOOTER */
+
+.house-img {
+  height: 150px;
+  width: 130px;
+}
+
+.footer-link {
+  color: white;
+  height: 30px;
+}
+
+.footer-link:hover{
+  color: var(--tertiary-color);
+  border-bottom: 1px solid var(--tertiary-color);
+}
+
+@media (width < 800px)  {
+  .showcase-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  #footer {
+    
+  }
+}
