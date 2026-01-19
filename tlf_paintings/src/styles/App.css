@@ -60,7 +60,12 @@
 }
 
 
-
+@media (width < 800px)  {
+  #main section {
+  padding: 0;
+  margin-top: 0;
+}
+}
 
 
 
