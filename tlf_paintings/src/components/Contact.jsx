@@ -1,6 +1,31 @@
+import { useRef, useState } from "react";
+import emailjs from "@emailjs/browser";
 import "../styles/Contact.css";
 
 function Contact() {
+  const formRef = useRef();
+  const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_KEY;
+  const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_KEY;
+  const publicKeyId = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+  const [formSubmitting, setFormSubmitting] = useState(false);
+  const currentTime = new Date().toLocaleTimeString();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setFormSubmitting(true);
+    emailjs.sendForm(serviceId, templateId, formRef.current, publicKeyId).then(
+      () => {
+        alert("Message sent successfully!");
+        formRef.current.reset();
+      },
+      (error) => {
+        console.error("EmailJS Error:", error);
+        alert("Something went wrong. Please try again.");
+      },
+    );
+    setFormSubmitting(false);
+  };
+
   return (
     <>
       <section id="contact">
@@ -15,13 +40,20 @@ function Contact() {
                 or an estimate.
               </p>
               <div className="flex flex-column w-100 max-w-[550px] mt-4">
-                <form className="text-black">
+                <form
+                  className="text-black"
+                  ref={formRef}
+                  onSubmit={handleSubmit}
+                >
+                  <input type="hidden" name="time" value={currentTime} />
+
                   <div className="mb-3 form-floating">
                     <input
                       type="text"
                       className="form-control"
                       id="inputFullName"
                       required
+                      name="name"
                       placeholder="firstname lastname"
                     />
                     <label for="inputFullName" className="form-label">
@@ -35,10 +67,11 @@ function Contact() {
                       className="form-control"
                       id="inputPhoneNumber"
                       required
+                      name="phone"
                       placeholder=""
                     />
                     <label for="inputPhoneNumber" className="form-label">
-                      Phone Number*
+                      Phone Number* (ex. 123-123-1234)
                     </label>
                   </div>
                   <div className="mb-3 form-floating">
@@ -47,6 +80,7 @@ function Contact() {
                       className="form-control"
                       id="inputEmailAddress"
                       required
+                      name="email"
                       placeholder="email"
                     />
                     <label for="inputEmailAddress" className="form-label">
@@ -59,6 +93,7 @@ function Contact() {
                       style={{ height: "150px" }}
                       placeholder="Leave a comment here"
                       id="inputComments"
+                      name="message"
                     ></textarea>
                     <label for="inputComments" className="form-label">
                       Questions / Comments
@@ -68,9 +103,13 @@ function Contact() {
                   <hr />
                   <button
                     type="submit"
-                    className="w-100 bg-primary-blue btn btn-primary"
+                    className={`w-100 btn btn-primary bg-primary-blue ${
+                      formSubmitting
+                        ? "opacity-50 cursor-not-allowed disabled"
+                        : ""
+                    }`}
                   >
-                    Submit
+                    {formSubmitting ? "Submitting..." : "Submit"}
                   </button>
                 </form>
               </div>
