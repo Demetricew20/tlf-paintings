@@ -33,13 +33,7 @@
   background-color: var(--primary-color);
 }
 
-.banner {
-  background-image: url("../assets/tlf-banner-1600.png");
-  width: 100%;
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: center;
-}
+
 
 
 /* MAIN */
@@ -49,9 +43,8 @@
 }
 
 .section-container {
-  padding-top: 2rem;
+  padding-top: 4rem;
   padding-bottom: 2rem;
-  border-bottom: 5px solid white;
 }
 
 .off-section {
@@ -67,53 +60,9 @@
 }
 
 
-/* BANNER */
-
-#languageBtn {
-  position: absolute;
-  top: 80px;
-  right: 10px;
-  background-color: transparent;
-  border: 1px solid white;
-}
-
-/* SERVICES */
-
-.services-content-container {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-}
-
-.services-content-wrapper {
-  display: flex;
-  justify-content: center;
-  max-width: 500px;
-}
-
-.services-list {
-  columns: 2;
-  -webkit-columns: 2;
-  -moz-columns: 2;
-}
-
-.services-list li{
-  padding: 1rem 0;
-}
-
-.services-list li i {
-  color: green;
-  margin-right: 7px;
-}
 
 
-/* SHOWCASE */
 
-.showcase-container {
-  display: grid;
-  grid-template-columns:  1fr 1fr;
-  row-gap: 3rem;
-}
 
 /* CONTACT */
 

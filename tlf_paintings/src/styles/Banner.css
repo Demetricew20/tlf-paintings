@@ -1,0 +1,17 @@
+/* BANNER */
+
+.banner {
+  background-image: url("../assets/tlf-banner-1600.png");
+  width: 100%;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+}
+
+#languageBtn {
+  position: absolute;
+  top: 80px;
+  right: 10px;
+  background-color: transparent;
+  border: 1px solid white;
+}

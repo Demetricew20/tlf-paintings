@@ -1,0 +1,29 @@
+
+/* SERVICES */
+
+.services-content-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.services-content-wrapper {
+  display: flex;
+  justify-content: center;
+  max-width: 500px;
+}
+
+.services-list {
+  columns: 2;
+  -webkit-columns: 2;
+  -moz-columns: 2;
+}
+
+.services-list li{
+  padding: 1rem 0;
+}
+
+.services-list li i {
+  color: green;
+  margin-right: 7px;
+}

@@ -10,26 +10,26 @@ const TopNav = () => {
         <a href="#about" className="h-auto w-auto items-center hidden md:flex">
           <img
             src={tlfLogo}
-            alt="logo"
+            alt="company-logo"
             width={110}
             height={90}
-            className="cursor-pointer hover:animate-spin-slow logo pt-1"
+            className="cursor-pointer pt-2"
           />
         </a>
 
         <div className="md:w-[350px] h-full w-full flex items-center justify-between ">
           <div className="flex items-center justify-between border border-white px-[20px] py-[10px] rounded-full nav-link-container">
-            <a href="#services" className="nav-link">
+            <a href="#servicesSection" className="nav-link">
               Services
             </a>
           </div>
           <div className="flex items-center justify-between border border-white md:px-[20px] px-[30px] py-[10px] rounded-full nav-link-container">
-            <a href="#showcase" className="nav-link">
+            <a href="#gallerySection" className="nav-link">
               Gallery
             </a>
           </div>
           <div className="flex items-center justify-between border border-white px-[20px] py-[10px] rounded-full nav-link-container">
-            <a href="#contact" className="nav-link">
+            <a href="#contactSection" className="nav-link">
               Contact
             </a>
           </div>

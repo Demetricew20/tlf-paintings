@@ -2,6 +2,7 @@
 
 @theme {
   --color-primary-blue: rgb(5, 48, 67) !important;
+  --color-secondary-blue: rgb(101, 176, 197) !important;
 }
 
 :root {
