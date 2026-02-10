@@ -1,40 +1,111 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import emailjs from "@emailjs/browser";
 import "../styles/Contact.css";
 
 function Contact() {
   const formRef = useRef();
-  const statusMessageRef = useRef();
   const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_KEY;
   const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_KEY;
   const publicKeyId = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
   const [formSubmitting, setFormSubmitting] = useState(false);
   const [statusMessage, setStatusMessage] = useState("");
   const [statusType, setStatusType] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    phone: "",
+    email: "",
+    message: "",
+  });
+  const [errors, setErrors] = useState({});
   const currentTime = new Date().toLocaleTimeString();
+
+  // Auto-close modal after 5 seconds
+  useEffect(() => {
+    if (showModal) {
+      const timer = setTimeout(() => {
+        setShowModal(false);
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [showModal]);
+
+  const validateForm = () => {
+    const newErrors = {};
+
+    // Name validation
+    if (!formData.name || formData.name.trim().length < 2) {
+      newErrors.name = "Name must be at least 2 characters long.";
+    }
+
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!formData.email || !emailRegex.test(formData.email)) {
+      newErrors.email = "Please enter a valid email address.";
+    }
+
+    // Phone validation
+    if (!formData.phone || formData.phone.trim().length === 0) {
+      newErrors.phone = "Phone number is required.";
+    } else if (!/^\d{3}-\d{3}-\d{4}$/.test(formData.phone)) {
+      newErrors.phone = "Phone must be in format: 123-456-7890.";
+    }
+
+    // Message validation
+    if (!formData.message || formData.message.trim().length < 1) {
+      newErrors.message = "Message required.";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+    // Clear error for this field when user starts typing
+    if (errors[name]) {
+      setErrors((prev) => ({
+        ...prev,
+        [name]: "",
+      }));
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    // Validate form before submitting
+    if (!validateForm()) {
+      setStatusType("error");
+      setStatusMessage("Please fix the errors in the form");
+      setShowModal(true);
+      return;
+    }
+
     setFormSubmitting(true);
+
     emailjs.sendForm(serviceId, templateId, formRef.current, publicKeyId).then(
       () => {
         setStatusType("success");
         setStatusMessage("Thank you! Your message has been sent successfully.");
         formRef.current.reset();
-        if (statusMessageRef.current) {
-          statusMessageRef.current.focus();
-        }
+        setFormData({ name: "", phone: "", email: "", message: "" });
+        setErrors({});
+        setShowModal(true);
+        setFormSubmitting(false);
       },
       (error) => {
         console.error("EmailJS Error:", error);
         setStatusType("error");
         setStatusMessage("Failed to send message. Please try again.");
-        if (statusMessageRef.current) {
-          statusMessageRef.current.focus();
-        }
+        setShowModal(true);
+        setFormSubmitting(false);
       },
     );
-    setFormSubmitting(false);
   };
 
   return (
@@ -61,17 +132,24 @@ function Contact() {
                 <div className="mb-3 form-floating">
                   <input
                     type="text"
-                    className="form-control"
-                    id="inputFullName"
+                    className={`form-control ${errors.name ? "is-invalid" : ""}`}
+                    id="name"
                     required
                     name="name"
+                    value={formData.name}
+                    onChange={handleChange}
                     placeholder="firstname lastname"
                     aria-required="true"
                     aria-describedby="name-help"
                   />
-                  <label htmlFor="inputFullName" className="form-label">
+                  <label htmlFor="name" className="form-label">
                     Name <span aria-label="required">*</span>
                   </label>
+                  {errors.name && (
+                    <div className="invalid-feedback d-block">
+                      {errors.name}
+                    </div>
+                  )}
                   <span id="name-help" className="sr-only">
                     Enter your full name
                   </span>
@@ -81,36 +159,47 @@ function Contact() {
                   <input
                     type="tel"
                     pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-                    className="form-control"
-                    id="inputPhoneNumber"
-                    required
+                    className={`form-control ${errors.phone ? "is-invalid" : ""}`}
+                    id="phone"
                     name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
                     placeholder="123-123-1234"
-                    aria-required="true"
-                    aria-describedby="phone-help"
+                    aria-describedby="phoneHelp"
+                    required
                   />
-                  <label htmlFor="inputPhoneNumber" className="form-label">
-                    Phone Number <span aria-label="required">*</span>
+                  <label htmlFor="phone" className="form-label">
+                    Phone Number*
                   </label>
-                  <span id="phone-help" className="sr-only">
-                    Format: 123-456-7890
-                  </span>
+                  {errors.phone && (
+                    <div className="invalid-feedback d-block">
+                      {errors.phone}
+                    </div>
+                  )}
+                  <span id="phoneHelp">Format: 123-456-7890</span>
                 </div>
 
                 <div className="mb-3 form-floating">
                   <input
                     type="email"
-                    className="form-control"
-                    id="inputEmailAddress"
+                    className={`form-control ${errors.email ? "is-invalid" : ""}`}
+                    id="email"
                     required
                     name="email"
+                    value={formData.email}
+                    onChange={handleChange}
                     placeholder="email@example.com"
                     aria-required="true"
                     aria-describedby="email-help"
                   />
-                  <label htmlFor="inputEmailAddress" className="form-label">
+                  <label htmlFor="email" className="form-label">
                     Email Address <span aria-label="required">*</span>
                   </label>
+                  {errors.email && (
+                    <div className="invalid-feedback d-block">
+                      {errors.email}
+                    </div>
+                  )}
                   <span id="email-help" className="sr-only">
                     Enter a valid email address
                   </span>
@@ -118,52 +207,94 @@ function Contact() {
 
                 <div className="mb-3 form-floating">
                   <textarea
-                    className="form-control h-150"
+                    className={`form-control h-150 ${
+                      errors.message ? "is-invalid" : ""
+                    }`}
                     style={{ height: "150px" }}
                     placeholder="Tell us about your project"
-                    id="inputComments"
+                    id="message"
                     name="message"
+                    value={formData.message}
+                    onChange={handleChange}
                     aria-required="true"
                     aria-describedby="message-help"
                   ></textarea>
-                  <label htmlFor="inputComments" className="form-label">
+                  <label htmlFor="message" className="form-label">
                     Message <span aria-label="required">*</span>
                   </label>
+                  {errors.message && (
+                    <div className="invalid-feedback d-block">
+                      {errors.message}
+                    </div>
+                  )}
                   <span id="message-help" className="sr-only">
                     Tell us about your project needs
                   </span>
                 </div>
 
-                {statusMessage && (
-                  <div
-                    ref={statusMessageRef}
-                    role="alert"
-                    aria-live="polite"
-                    className={`status-message status-${statusType} mb-3`}
-                    tabIndex="-1"
-                  >
-                    {statusMessage}
-                  </div>
-                )}
-
                 <hr />
                 <button
                   type="submit"
-                  className={`w-100 btn btn-primary bg-primary-blue ${
-                    formSubmitting
-                      ? "opacity-50 cursor-not-allowed disabled"
-                      : ""
+                  className={`w-100 btn btn-primary bg-primary-blue flex items-center justify-center gap-2 ${
+                    formSubmitting ? "opacity-70 cursor-not-allowed" : ""
                   }`}
                   disabled={formSubmitting}
                   aria-label="Submit contact form"
                 >
-                  {formSubmitting ? "Submitting..." : "Submit"}
+                  {formSubmitting ? (
+                    <>
+                      <span
+                        className="spinner-border spinner-border-sm"
+                        role="status"
+                        aria-hidden="true"
+                      ></span>
+                      <span>Submitting...</span>
+                    </>
+                  ) : (
+                    "Submit"
+                  )}
                 </button>
               </form>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Success/Error Modal Popup */}
+      {showModal && (
+        <div
+          className={`modal-overlay modal-${statusType}`}
+          onClick={() => setShowModal(false)}
+          role="dialog"
+          aria-modal="true"
+          aria-label={
+            statusType === "success" ? "Success message" : "Error message"
+          }
+        >
+          <div
+            className={`modal-content modal-${statusType}`}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="modal-header">
+              <span className={`modal-icon modal-${statusType}`}>
+                {statusType === "success" ? "✓" : "⚠"}
+              </span>
+            </div>
+            <div className="modal-body">
+              <p className="modal-message">{statusMessage}</p>
+            </div>
+            <div className="modal-footer">
+              <button
+                className="modal-close-btn"
+                onClick={() => setShowModal(false)}
+                aria-label="Close modal"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }
