@@ -1,12 +1,74 @@
-# React + Vite
+# TLF Paintings — React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+TLF Paintings is a responsive React single-page site built with Vite. It showcases residential and commercial painting projects and includes a contact form (EmailJS) for quotes and inquiries.
 
-Currently, two official plugins are available:
+## Tech stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- React (JSX)
+- Vite (dev server and build)
+- Tailwind / custom CSS
+- Bootstrap utilities
+- EmailJS for contact form
 
-## Expanding the ESLint configuration
+## Key files
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- `src/main.jsx` — app entry
+- `src/App.jsx` — root component
+- `src/layout/TopNav.jsx`, `src/layout/Footer.jsx` — navigation and footer
+- `src/components/*` — Banner, Services, Gallery, GalleryCard, Contact
+- `src/styles/*` — component styles
+
+## Setup
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Start dev server:
+
+```bash
+npm run dev
+```
+
+Build for production:
+
+```bash
+npm run build
+```
+
+Preview production build:
+
+```bash
+npm run preview
+```
+
+## Environment variables
+
+Create a `.env.local` with your EmailJS keys (an example is included in the repo):
+
+```
+VITE_EMAILJS_PUBLIC_KEY="your_public_key"
+VITE_EMAILJS_SERVICE_KEY="your_service_id"
+VITE_EMAILJS_TEMPLATE_KEY="your_template_id"
+```
+
+## Accessibility & SEO
+
+- WCAG AA improvements were added: semantic HTML, ARIA labels, keyboard focus states, sufficient color contrast, form labels, live regions and `.sr-only` helper.
+- SEO: `index.html` includes an improved title, meta description, Open Graph/Twitter tags, canonical link and JSON-LD LocalBusiness structured data. Replace placeholder URLs with your production domain.
+
+## Contact form behavior
+
+- Client-side validation for name, email, phone (required, `123-456-7890` format) and message length.
+- Loading spinner shown on submit; submit button disabled while sending.
+- Success and error responses presented in an accessible modal; auto-dismiss after 5s.
+
+## Deployment
+
+The site is ready for Vercel, Netlify, or similar static hosts. A `vercel --prod` command was used during development.
+
+## Contributing
+
+Fork and open a PR. Keep changes small and focused. If you want help adding per-route meta tags, a sitemap.xml, or `robots.txt`, I can add those next.
