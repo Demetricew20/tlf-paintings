@@ -19,8 +19,16 @@ function App() {
           <Banner />
           <section className="callToActionsBanner">
             <div className="flex justify-center gap-x-20">
-              <button>CALL NOW</button>
-              <button>GET A QUOTE</button>
+              <a href="tel:+17373879982" aria-label="Call TLF Paintings">
+                <button className="bg-color-dark-grey text-white px-6 py-3 rounded-full hover:bg-blue-700 transition duration-300">
+                  CALL NOW
+                </button>
+              </a>
+              <a href="#contactSection" aria-label="Get a quote">
+                <button className="bg-color-dark-grey text-white px-6 py-3 rounded-full hover:bg-blue-700 transition duration-300">
+                  GET A QUOTE
+                </button>
+              </a>
             </div>
           </section>
           {/* <section id="about" className="flex justify-center mt-20">

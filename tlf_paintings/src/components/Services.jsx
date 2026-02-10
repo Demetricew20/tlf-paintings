@@ -40,7 +40,7 @@ function Services() {
         <h2 className="text-center mb-5 font-bold max-md:text-2xl md:text-4xl">
           Services We Offer
         </h2>
-        <div className="grid gap-10 sm:grid-cols-1 md:grid-cols-2">
+        <div className="grid gap-10 sm:grid-cols-1 m-2 md:m-0 md:grid-cols-2">
           {services.map((service) => (
             <div
               key={service.title}
