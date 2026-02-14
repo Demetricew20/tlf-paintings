@@ -47,8 +47,8 @@ function Contact() {
     // Phone validation
     if (!formData.phone || formData.phone.trim().length === 0) {
       newErrors.phone = "Phone number is required.";
-    } else if (!/^\d{3}-\d{3}-\d{4}$/.test(formData.phone)) {
-      newErrors.phone = "Phone must be in format: 123-456-7890.";
+    } else if (!/^\(\d{3}\) \d{3}-\d{4}$/.test(formData.phone)) {
+      newErrors.phone = "Phone must be in format: (123) 456-7890.";
     }
 
     // Message validation
@@ -60,11 +60,33 @@ function Contact() {
     return Object.keys(newErrors).length === 0;
   };
 
+  const formatPhoneNumber = (value) => {
+    // Remove all non-digit characters
+    const phoneDigits = value.replace(/\D/g, "");
+
+    // Only format if we have digits, limit to 10 digits
+    if (phoneDigits.length === 0) return "";
+    if (phoneDigits.length <= 3) {
+      return `(${phoneDigits}`;
+    } else if (phoneDigits.length <= 6) {
+      return `(${phoneDigits.slice(0, 3)}) ${phoneDigits.slice(3)}`;
+    } else {
+      return `(${phoneDigits.slice(0, 3)}) ${phoneDigits.slice(3, 6)}-${phoneDigits.slice(6, 10)}`;
+    }
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
+
+    // Special handling for phone field
+    let newValue = value;
+    if (name === "phone") {
+      newValue = formatPhoneNumber(value);
+    }
+
     setFormData((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: newValue,
     }));
     // Clear error for this field when user starts typing
     if (errors[name]) {
@@ -158,13 +180,14 @@ function Contact() {
                 <div className="mb-3 form-floating">
                   <input
                     type="tel"
-                    pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+                    pattern="\(\d{3}\) \d{3}-\d{4}"
                     className={`form-control ${errors.phone ? "is-invalid" : ""}`}
                     id="phone"
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
-                    placeholder="123-123-1234"
+                    placeholder="(123) 456-7890"
+                    maxLength="14"
                     aria-describedby="phoneHelp"
                     required
                   />
@@ -176,7 +199,6 @@ function Contact() {
                       {errors.phone}
                     </div>
                   )}
-                  <span id="phoneHelp">Format: 123-456-7890</span>
                 </div>
 
                 <div className="mb-3 form-floating">

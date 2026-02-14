@@ -18,7 +18,7 @@
       content="painting, house painting, interior painting, exterior painting, commercial painting, deck staining, San Marcos"
     />
     <meta name="robots" content="index, follow" />
-    <link rel="canonical" href="/" />
+    <!-- canonical removed to avoid Vite resolving root as a filesystem path during build -->
     <meta name="theme-color" content="#053043" />
 
     <!-- Open Graph / Facebook -->
@@ -31,8 +31,8 @@
       property="og:description"
       content="TLF Paintings provides professional interior, exterior, commercial painting and deck staining services in San Marcos, TX. Free estimates and high-quality workmanship."
     />
-    <meta property="og:url" content="/" />
-    <meta property="og:image" content="/src/assets/tlf-banner-1600.png" />
+    <meta property="og:url" content="https://example.com/" />
+    <meta property="og:image" content="./src/assets/tlf-banner-1600.png" />
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
@@ -44,7 +44,7 @@
       name="twitter:description"
       content="Professional painting services in San Marcos, TX — interior, exterior, commercial and deck staining. Request a free estimate."
     />
-    <meta name="twitter:image" content="/src/assets/tlf-banner-1600.png" />
+    <meta name="twitter:image" content="./src/assets/tlf-banner-1600.png" />
 
     <!-- Structured Data: LocalBusiness -->
     <script type="application/ld+json">
@@ -53,13 +53,13 @@
         "@type": "LocalBusiness",
         "name": "TLF Paintings",
         "description": "Professional interior, exterior, commercial painting and deck staining services in San Marcos, TX.",
-        "url": "/",
         "telephone": "+17373879982",
         "address": {
           "@type": "PostalAddress",
           "streetAddress": "San Marcos, TX 78666"
         },
-        "image": "/src/assets/tlf-banner-1600.png"
+        "url": "https://tlf-paintings.com/",
+        "image": "./src/assets/tlf-banner-1600.png"
       }
     </script>
 
@@ -84,7 +84,7 @@
     ></script>
     <script
       type="text/javascript"
-      src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
+      src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
     ></script>
   </body>
 </html>
